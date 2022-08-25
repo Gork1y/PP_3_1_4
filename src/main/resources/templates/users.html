@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <style>
+        input[type=text] {
+            padding: 5px;
+            border: 2px solid #ccc;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+        }
+
+        input[type=text]:focus {
+            border-color: #333;
+        }
+
+        input[type=submit] {
+            background: linear-gradient(to top, #55EFCB 0%, #5BCAFF 100%);
+            height: 100%;
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, .4);
+            -webkit-border-radius: 5px;
+            font-weight: 300;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        input[type=reset] {
+            background: linear-gradient(to top, #55EFCB 0%, #5BCAFF 100%);
+            height: 100%;
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, .4);
+            -webkit-border-radius: 5px;
+            font-weight: 300;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .container-3 a {
+            position: relative;
+            text-decoration: none;
+            color: #337AB7;
+            display: inline-block;
+        }
+
+        .container-3 a::before,
+        .container-3 a::after {
+            content: '';
+            position: absolute;
+            transition: transform .5s ease;
+            left: -4px;
+            top: 0;
+            width: calc(100% + 8px);
+            height: 100%;
+            border-style: solid;
+            border-color: #337AB7;
+            box-sizing: border-box;
+        }
+
+        .container-3 a::before {
+            border-width: 1px 0 1px 0;
+            transform: scaleX(0);
+        }
+
+        .container-3 a::after {
+            border-width: 0 1px 0 1px;
+            transform: scaleY(0);
+        }
+
+        .container-3 a:hover::before,
+        .container-3 a:hover::after {
+            transform: scale(1, 1);
+        }
+
+        .datagrid table {
+            border-collapse: collapse;
+            text-align: left;
+            width: 100%;
+        }
+
+        .datagrid {
+            font: normal 12px/150% Arial, Helvetica, sans-serif;
+            background: #fff;
+            overflow: hidden;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+        }
+
+        .datagrid table td, .datagrid table th {
+            padding: 10px 5px;
+        }
+
+        .datagrid table thead th {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F));
+            background: -moz-linear-gradient(center top, #006699 5%, #00557F 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+            background-color: #006699;
+            color: #FFFFFF;
+            font-size: 14px;
+            font-weight: bold;
+            border-left: 1px solid #0070A8;
+        }
+
+        .datagrid table thead th:first-child {
+            border: none;
+        }
+
+        .datagrid table tbody td {
+            color: #00557F;
+            border-left: 2px solid #E1EEF4;
+            font-size: 15px;
+            font-weight: normal;
+        }
+
+        .datagrid table tbody .alt td {
+            background: #E1EEf4;
+            color: #00557F;
+        }
+
+        .datagrid table tbody td:first-child {
+            border-left: none;
+        }
+
+        .datagrid table tbody tr:last-child td {
+            border-bottom: none;
+
+        }</style>
+</head>
+<body>
+<div class="datagrid">
+<table>
+    <thead >
+    <tr>
+        <th>User ID</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Roles</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each = "user : ${users}">
+        <td th:text="${user.id}">User ID</td>
+        <td th:text="${user.username}">Username</td>
+        <td th:text="${user.password}">Password</td>
+        <td th:text="${user.firstName}">First Name</td>
+        <td th:text="${user.lastName}">Last Name</td>
+        <td th:text="${user.email}">E-mail</td>
+
+
+        <td th:each="role : ${user.roleSet}" th:text="${role.getName()}">Roles</td>
+        <td>
+            <form th:action="@{/admin/update/{id}(id=${user.getId()})}" th:method="GET">
+                <input type="submit" value="Edit"/>
+        </form>
+        </td>
+        <td>
+            <form th:action="@{/admin/deleteUser/{id}(id=${user.getId()})}" th:method="DELETE">
+                <input type="submit" value="Delete"/>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+<form th:action="@{/admin/addUserForm}" th:method="GET">
+    <input type="submit" value="AddUser"/>
+</form>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+
+</body>
+</html>
