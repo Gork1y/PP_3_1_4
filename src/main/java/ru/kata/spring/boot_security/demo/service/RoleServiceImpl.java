@@ -23,13 +23,4 @@ public class RoleServiceImpl implements RoleService {
         return new HashSet<>(roleRepository.findAll());
     }
 
-    @Transactional
-    public Role findByName(String name) {
-        return roleRepository.findByName(name);
-    }
-
-    @Transactional
-    public void save(Role role) {
-        roleRepository.save(role);
-    }
 }

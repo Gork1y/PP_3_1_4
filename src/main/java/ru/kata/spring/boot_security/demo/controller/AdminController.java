@@ -56,7 +56,7 @@ public class AdminController {
         return "updateUser";
     }
 
-    @PatchMapping("/admin/updateUser")
+    @PostMapping("/admin/updateUser")
     public String updateUser(User user, @RequestParam("roles") Set<Role> roles) {
         user.setRoleSet(roles);
         userService.saveUser(user);
