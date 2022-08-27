@@ -25,10 +25,10 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String showAllUsers(Model model) {
-        List<User> users = userService.findAll();
-        model.addAttribute("users", users);
-        return "users";
+        model.addAttribute("users", userService.findAll());
+        return "user";
     }
+
     @GetMapping("/admin/addUserForm")
     public String addUserForm(@ModelAttribute("newUser") User user, Model model) {
         model.addAttribute("roles", roleService.findAll());
@@ -43,7 +43,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @DeleteMapping("/admin/deleteUser/{id}")
+    @PostMapping("/admin/deleteUser/{id}")
     public String delete(@PathVariable("id") long id) {
         userService.deleteById(id);
         return "redirect:/admin";
@@ -51,11 +51,11 @@ public class AdminController {
 
     @GetMapping("/admin/update/{id}")
     public String update(Model model, @PathVariable("id") Long id) {
-        User user = userService.findById(id);
-        model.addAttribute("userToUpdate", user);
+        model.addAttribute("userToUpdate", userService.findById(id));
         model.addAttribute("roles", roleService.findAll());
         return "updateUser";
     }
+
     @PatchMapping("/admin/updateUser")
     public String updateUser(User user, @RequestParam("roles") Set<Role> roles) {
         user.setRoleSet(roles);
