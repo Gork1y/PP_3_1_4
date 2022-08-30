@@ -1,5 +1,6 @@
 
 package ru.kata.spring.boot_security.demo.service;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -7,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
@@ -22,11 +24,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
-
+    @Transactional
     public User findById(Long id) {
         return userRepository.findById(id).orElse(new User());
     }
-
+    @Transactional
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -43,24 +45,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         userRepository.deleteById(id);
     }
 
-    public void updateUser(User user,long id) {
-        User updatedUser = findById(id);
-        updatedUser.setUsername(user.getUsername());
-        updatedUser.setPassword(user.getPassword());
-        updatedUser.setFirstName(user.getFirstName());
-        updatedUser.setLastName(user.getLastName());
-        updatedUser.setEmail(user.getEmail());
-    }
-    @Override
     @Transactional
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username);
     }
-
+    @Transactional
     public User findByUsername(String email) {
         return userRepository.findByUsername(email);
     }
-
+    @Transactional
     public User findByEmail(String email) {
         return userRepository.findByUsername(email);
     }

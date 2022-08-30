@@ -2,10 +2,13 @@ package ru.kata.spring.boot_security.demo.model;
 
 
 import lombok.Data;
+
 import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -20,7 +23,12 @@ public class Role implements GrantedAuthority {
     @Column
     private String name;
 
-    public Role() { }
+    @ManyToMany(mappedBy = "roleSet")
+    private Set<User> users;
+
+
+    public Role() {
+    }
 
     public Role(String name) {
         this.name = name;
