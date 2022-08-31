@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="20220831-2311-init" author="gorkiy">
+        <sql>
+            CREATE TABLE `hibernate_sequence`
+            (
+                `next_val` bigint DEFAULT NULL
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="20220831-2222-init" author="gorkiy">
+        <sql>
+            CREATE TABLE `users`
+            (
+                `id`        bigint NOT NULL,
+                `email`     varchar(255) DEFAULT NULL,
+                `firstname` varchar(255) DEFAULT NULL,
+                `lastname`  varchar(255) DEFAULT NULL,
+                `password`  varchar(255) DEFAULT NULL,
+                `user_name` varchar(255) DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            )
+        </sql>
+    </changeSet>
+
+    <changeSet id="20220831-2225-init" author="gorkiy">
+        <sql>
+            CREATE TABLE `roles`
+            (
+                `id`   bigint NOT NULL AUTO_INCREMENT,
+                `name` varchar(255) DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="20220831-2226-init" author="gorkiy">
+        <sql>
+            CREATE TABLE `users_roles`
+            (
+                `user_id` bigint NOT NULL,
+                `role_id` bigint NOT NULL,
+                PRIMARY KEY (`user_id`, `role_id`),
+                KEY       `FKj6m8fwv7oqv74fcehir1a9ffy` (`role_id`),
+                CONSTRAINT `FK2o0jvgh89lemvvo17cbqvdxaa` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+                CONSTRAINT `FKj6m8fwv7oqv74fcehir1a9ffy` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
+            )
+        </sql>
+    </changeSet>
+    <changeSet id="20220831-2228-init" author="gorkiy">
+        <sql>
+            INSERT INTO kata113.users (id, email, firstname, lastname, password, user_name)
+            VALUES (1, 'email', 'admin', 'admin last', '$2a$12$DapC.5AZpQaWagiI/C0VG.gm1aHUqBVmpM2Uj11lEK5qIdddKG762',
+                    'admin');
+        </sql>
+    </changeSet>
+    <changeSet id="20220831-2230-init" author="gorkiy">
+        <sql>
+            INSERT INTO kata113.roles (name)
+            VALUES ('ROLE_ADMIN'),
+                   ('ROLE_USER');
+
+        </sql>
+    </changeSet>
+    <changeSet id="20220831-2231-init" author="gorkiy">
+        <sql>
+            INSERT INTO kata113.users_roles (user_id, role_id)
+            VALUES (1, 1);
+
+        </sql>
+    </changeSet>
+        <changeSet id="20220831-2232-init" author="gorkiy">
+            <sql>
+                INSERT INTO kata113.hibernate_sequence (next_val)
+                VALUES (3);
+            </sql>
+        </changeSet>
+
+</databaseChangeLog>

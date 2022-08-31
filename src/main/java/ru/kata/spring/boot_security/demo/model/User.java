@@ -18,7 +18,7 @@ import lombok.Data;
 @NamedEntityGraphs(value = {@NamedEntityGraph(name = User.ROLE, attributeNodes = @NamedAttributeNode("roleSet"))})
 
 public class User implements UserDetails {
-    public static final String ROLE = "Users[roles]";
+    public static final String ROLE = "abvgd";
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
