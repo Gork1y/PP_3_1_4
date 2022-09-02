@@ -10,15 +10,17 @@ import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
+@ToString
 @NamedEntityGraphs(value = {@NamedEntityGraph(name = User.ROLE, attributeNodes = @NamedAttributeNode("roleSet"))})
 
 public class User implements UserDetails {
-    public static final String ROLE = "abvgd";
+    public static final String ROLE = "role[user]";
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -33,6 +35,9 @@ public class User implements UserDetails {
     @Column(name = "lastname")
     private String lastName;
 
+    @Column(name = "age")
+    private int age;
+
     @Column(name = "email")
     private String email;
 
@@ -46,6 +51,7 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
 
     )
+    @ToString.Exclude
     private Set<Role> roleSet = new HashSet<>();
 
     public User() {
@@ -86,6 +92,8 @@ public class User implements UserDetails {
         roleSet.add(role);
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,16 +105,5 @@ public class User implements UserDetails {
     @Override
     public int hashCode() {
         return getClass().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", roleList=" + roleSet +
-                '}';
     }
 }
