@@ -26,13 +26,13 @@ public class AdminController {
     @GetMapping("/admin")
     public String showAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
-        return "user";
+        return "admin";
     }
 
     @GetMapping("/admin/addUserForm")
     public String addUserForm(@ModelAttribute("newUser") User user, Model model) {
         model.addAttribute("roles", roleService.findAll());
-        return "newUser";
+        return "/admin";
     }
 
     @PostMapping("/admin/addUser")
@@ -53,7 +53,7 @@ public class AdminController {
     public String update(Model model, @PathVariable("id") Long id) {
         model.addAttribute("userToUpdate", userService.findById(id));
         model.addAttribute("roles", roleService.findAll());
-        return "updateUser";
+        return "/admin";
     }
 
     @PostMapping("/admin/updateUser")

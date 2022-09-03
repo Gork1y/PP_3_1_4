@@ -1,18 +1,19 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
-import lombok.Data;
+import java.util.Objects;
+import java.util.Set;
+import javax.persistence.*;
 
 import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.*;
-import java.util.Objects;
-import java.util.Set;
+import lombok.*;
 
 @Entity
 @Table(name = "roles")
-@Data
+@Getter
+@Setter
 public class Role implements GrantedAuthority {
 
     @Id
@@ -24,6 +25,7 @@ public class Role implements GrantedAuthority {
     private String name;
 
     @ManyToMany(mappedBy = "roleSet")
+    @ToString.Exclude
     private Set<User> users;
 
 
@@ -40,6 +42,11 @@ public class Role implements GrantedAuthority {
     }
 
     @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
@@ -50,14 +57,6 @@ public class Role implements GrantedAuthority {
     @Override
     public int hashCode() {
         return getClass().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 }
 
