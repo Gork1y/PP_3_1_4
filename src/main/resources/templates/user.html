@@ -53,6 +53,7 @@
                         </div>
                         <div class="card-body">
                             <table class="table table-hover">
+
                                 <tr>
                                     <th>Id</th>
                                     <th>Name</th>
@@ -64,10 +65,10 @@
                                 <td th:text="${user.username}"></td>
                                 <td th:text="${user.lastName}"></td>
                                 <td th:text="${user.email}"></td>
-                                <td th:text="${user.roleSet}"></td>
-                                <!--                                <td>-->
-                                <!--                                    <li th:each="role: ${user.getRoles()}" th:text="${user.getRoles()}"></li>-->
-                                <!--                                </td>-->
+                                <td >
+                                    <div  sec:authorize="hasRole('ROLE_USER')">USER</div>
+                                    <div  sec:authorize="hasRole('ROLE_ADMIN')">ADMIN</div>
+                                </td>
                             </table>
                         </div>
                     </div>

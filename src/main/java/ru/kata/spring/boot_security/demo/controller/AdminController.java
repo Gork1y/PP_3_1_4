@@ -26,7 +26,7 @@ public class AdminController {
     @GetMapping("/admin")
     public String showAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
-        return "admin";
+        return "/admin";
     }
 
     @GetMapping("/admin/addUserForm")

@@ -1,6 +1,6 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -21,8 +21,8 @@
                 <ul class="navbar-nav me-auto mb-2 mb-xl-0">
                     <span class="align-middle font-weight-bold mr-1" sec:authentication="name"></span>
                     <span class="align-middle mr-1">with roles:</span>
-                    <div class="align-middle" sec:authorize="hasRole('ROLE_ADMIN')">ADMIN</div>
-                    <div class="align-middle" sec:authorize="hasRole('ROLE_USER')">USER</div>
+                    <div class="align-middle" sec:authorize="hasAuthority('ROLE_ADMIN')">ADMIN</div>
+                    <div class="align-middle" sec:authorize="hasAuthority('ROLE_USER')">USER</div>
 
                 </ul>
             </div>

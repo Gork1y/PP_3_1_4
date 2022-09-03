@@ -88,11 +88,6 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void addRole(Role role) {
-        roleSet.add(role);
-    }
-
-
 
     @Override
     public boolean equals(Object o) {
