@@ -142,7 +142,7 @@
                                                                        th:name="lastName">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="lastname1"
+                                                                <label for="age1"
                                                                        class="col-form-label"><b>Age:</b></label>
                                                                 <input type="text" class="form-control" id="age1"
                                                                        th:value="${user.getAge()}"
@@ -167,11 +167,12 @@
                                                             <label for="roles1"><b>Role</b></label>
                                                             <select multiple class="form-control form-control-sm"
                                                                     id="roles1" th:name="roles" size="2">
+
                                                                 <option th:each="role: ${user.roleSet}"
                                                                         th:name="*{role}"
                                                                         th:text="${role.name}" th:value="${role.id}"
-                                                                        class="m-2"/>
-                                                                </th:block>
+                                                                        class="m-2"></option>
+
                                                             </select>
 
 
@@ -243,8 +244,8 @@
                                                                 <option th:each="role: ${user.roleSet}"
                                                                         th:name="*{role}"
                                                                         th:text="${role.name}" th:value="${role.id}"
-                                                                        class="m-2" disabled/>
-                                                                </th:block>
+                                                                        class="m-2" disabled>
+                                                                </option>
                                                             </select>
 
 
@@ -295,7 +296,9 @@
 
                                 <label><b>Role</b></label>
                                 <select multiple class="form-control form-control-sm" id="roles" name="roles" size="2">
-                                    <option th:each="role : ${roles}" th:text="${role.getName()}" th:value="${role.getId()}"/>
+                                    <option th:each="role : ${roles}" th:text="${role.getName()}" th:value="${role.getId()}">
+
+                                    </option>
                                 </select>
 
                                 <br>
