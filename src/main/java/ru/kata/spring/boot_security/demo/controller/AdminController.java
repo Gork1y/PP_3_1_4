@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
@@ -22,16 +23,11 @@ public class AdminController {
         this.userService = userService;
         this.roleService = roleService;
     }
-
     @GetMapping("/admin")
-    public String showAllUsers(Model model) {
-        model.addAttribute("users", userService.findAll());
-        return "/admin";
-    }
-
-    @GetMapping("/admin/addUserForm")
-    public String addUserForm(@ModelAttribute("newUser") User user, Model model) {
+    public String adminInfo( Model model, @ModelAttribute("newUser") User user) {
+        model.addAttribute("users",  userService.findAll());
         model.addAttribute("roles", roleService.findAll());
+
         return "/admin";
     }
 
@@ -49,14 +45,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/update/{id}")
-    public String update(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("userToUpdate", userService.findById(id));
-        model.addAttribute("roles", roleService.findAll());
-        return "/admin";
-    }
-
-    @PostMapping("/admin/updateUser")
+    @PostMapping("/admin/updateUser/{id}")
     public String updateUser(User user, @RequestParam("roles") Set<Role> roles) {
         user.setRoleSet(roles);
         userService.saveUser(user);

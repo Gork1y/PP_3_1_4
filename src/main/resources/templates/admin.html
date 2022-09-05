@@ -1,6 +1,6 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -82,7 +82,7 @@
                                     <tbody>
                                     <tr th:each="user: ${users}">
                                         <td th:text="${user.id}">User ID</td>
-                                        <td th:text="${user.firstName}">Username</td>
+                                        <td th:text="${user.firstName}">First name</td>
                                         <td th:text="${user.lastName}">lastname</td>
                                         <td th:text="${user.age}">Age</td>
                                         <td th:text="${user.email}">E-mail</td>
@@ -107,7 +107,7 @@
                                         <div class="modal fade" th:id="${'edituser'+user.getId()}" tabindex="-1"
                                              role="dialog"
                                              aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <form th:action="@{/admin/updateUser}" method="POST">
+                                            <form th:action="@{/admin/updateUser/{id}(id=${user.getId()})}" th:object="${user}" method="POST">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -132,7 +132,7 @@
                                                                        class="col-form-label"><b>First Name:</b></label>
                                                                 <input type="text" class="form-control" id="firstname1"
                                                                        th:value="${user.getFirstName()}"
-                                                                       th:name="firstname">
+                                                                       th:name="firstName">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="lastname1"
@@ -168,8 +168,7 @@
                                                             <select multiple class="form-control form-control-sm"
                                                                     id="roles1" th:name="roles" size="2">
 
-                                                                <option th:each="role: ${user.roleSet}"
-                                                                        th:name="*{role}"
+                                                                <option th:each="role: ${roles}"
                                                                         th:text="${role.name}" th:value="${role.id}"
                                                                         class="m-2"></option>
 
@@ -201,7 +200,8 @@
                                                                 data-dismiss="modal"></button>
                                                     </div>
                                                     <form th:method="DELETE"
-                                                          th:action="@{/admin/deleteUser/{id}(id=${user.getId()})}">
+                                                          th:action="@{/admin/deleteUser/{id}(id=${user.getId()})}"
+                                                          th:object="${user}">
                                                         <div class="modal-body text-center">
 
                                                             <div class="form-group">
@@ -242,7 +242,7 @@
                                                                     id="roles2" name="roles" size="2" required
                                                                     disabled>
                                                                 <option th:each="role: ${user.roleSet}"
-                                                                        th:name="*{role}"
+
                                                                         th:text="${role.name}" th:value="${role.id}"
                                                                         class="m-2" disabled>
                                                                 </option>
@@ -296,8 +296,9 @@
 
                                 <label><b>Role</b></label>
                                 <select multiple class="form-control form-control-sm" id="roles" name="roles" size="2">
-                                    <option th:each="role : ${roles}" th:text="${role.getName()}" th:value="${role.getId()}">
 
+                                    <option th:each="role : ${roles}" th:text="${role.getName()}"
+                                            th:value="${role.getId()}">
                                     </option>
                                 </select>
 

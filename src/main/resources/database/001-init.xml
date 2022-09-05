@@ -23,7 +23,7 @@
                 `lastname`  varchar(255) DEFAULT NULL,
                 `age`       INTEGER (255) DEFAULT NULL,
                 `password`  varchar(255) DEFAULT NULL,
-                `user_name` varchar(255) DEFAULT NULL,
+                `username` varchar(255) DEFAULT NULL,
                 PRIMARY KEY (`id`)
             )
         </sql>
@@ -54,7 +54,7 @@
     </changeSet>
     <changeSet id="20220831-2228-init" author="gorkiy">
         <sql>
-            INSERT INTO kata113.users (id, email, firstname, lastname, age, password, user_name)
+            INSERT INTO kata113.users (id, email, firstname, lastname, age, password, username)
             VALUES (1, 'admin@email.ru', 'admin', 'admin lastname', 31,
                     '$2a$12$DapC.5AZpQaWagiI/C0VG.gm1aHUqBVmpM2Uj11lEK5qIdddKG762', 'admin'),
                    (2, 'user@email.ru', 'user', 'user lastname', 32,
