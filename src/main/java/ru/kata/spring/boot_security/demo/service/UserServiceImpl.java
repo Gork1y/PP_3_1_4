@@ -24,25 +24,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
-    @Transactional
+
     public User findById(Long id) {
-        return userRepository.findById(id).orElse(new User());
+        return userRepository.findById(id).orElse(null);
     }
-    @Transactional
+
     public List<User> findAll() {
         return userRepository.findAll();
     }
-
 
     @Transactional
     public void saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-    }
-
-    @Transactional
-    public void deleteById(Long id) {
-        userRepository.deleteById(id);
     }
 
     @Transactional
@@ -53,17 +47,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         userRepository.save(user);
     }
 
-    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username);
     }
 
-    public User findByUsername(String name) {
-        return userRepository.findByUsername(name);
-    }
-
     public User findByEmail(String email) {
-        return userRepository.findByUsername(email);
+        return  userRepository.findByUsername(email);
     }
 
 }

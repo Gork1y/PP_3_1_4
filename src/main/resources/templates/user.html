@@ -1,93 +1,105 @@
-<!doctype html>
-<html lang="en" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <title>User page</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <title>User panel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-xl navbar-dark text-white bg-dark">
-    <div class="container-fluid">
-        <div class="collapse navbar-collapse show" id="navbarDark">
-            <ul class="navbar-nav me-auto mb-2 mb-xl-0">
-                <span class="align-middle font-weight-bold mr-1" th:text="${user.username}"></span></b>
-                <span class="align-middle mr-1">with roles:</span>
-                <div class="align-middle" sec:authorize="hasRole('ROLE_USER')">USER</div>
-                <div class="align-middle" sec:authorize="hasRole('ROLE_ADMIN')">ADMIN</div>
-                </span>
+
+<!--Шапка страницы-->
+<header>
+    <div class="container-fluid" style="padding: 0">
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                    <!-- Navbar content -->
+                    <div class="collapse navbar-collapse" id="user">
+                        <ul class="navbar-nav mr-auto">
+                            <a class="navbar-brand font-weight-bold" id="headerUsername"></a>
+                            <a class="navbar-brand">with roles:</a>
+                            <a class="navbar-brand" id="headerRoles"></a>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link text-right" href="/logout">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!--Основной контент страницы-->
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!--Панель слева-->
+
+        <div class="col-2" style="padding: 0; padding-top: 15px">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#userPanel">User</a>
+                </li>
             </ul>
         </div>
 
-        <form action="#" th:action="@{/logout}" method="get">
-            <button type="submit" class="btn btn-dark text-secondary">
-                Logout
-            </button>
-        </form>
-    </div>
-</nav>
-<div class="container-fluid">
-    <div class="row">
-        <div class="p-2 col-2">
-            <div class="nav flex-column nav-pills pt-2" id="v-pills-tab" role="tablist"
-                 aria-orientation="vertical">
-                <a class="nav-link active" href="/user"
-                   role="tab"
-                   aria-controls="v-pills-profile" aria-selected="true">User</a>
-            </div>
-        </div>
+        <!--Панель справа-->
 
-        <div class="col-md-10 bg-light">
-            <h1 class="mt-3">User information-page</h1>
+        <div class="col-10 bg-light">
+            <div class="tab-content" style="padding-top: 15px; height: 100vh">
 
-            <div class="tab-content">
-                <div class="tab-pane fade show active">
+                <!--Панель пользователя-->
+
+                <div class="tab-pane fade show active" id="userPanel">
+                    <h2>User information-page</h2>
                     <div class="card">
-                        <div class="card-header">
-                            <h4>About user</h4>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-hover">
-
+                        <h5 class="card-header">About user</h5>
+                        <div class="card-body text-center">
+                            <table class="table table-striped">
+                                <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>ID</th>
                                     <th>Name</th>
-                                    <th>Last name</th>
+                                    <th>Last Name</th>
                                     <th>Email</th>
-                                    <th>Roles</th>
+                                    <th>Role</th>
                                 </tr>
-                                <td th:text="${user.id}"></td>
-                                <td th:text="${user.username}"></td>
-                                <td th:text="${user.lastName}"></td>
-                                <td th:text="${user.email}"></td>
-                                <td >
-                                    <div  sec:authorize="hasRole('ROLE_USER')">USER</div>
-                                    <div  sec:authorize="hasRole('ROLE_ADMIN')">ADMIN</div>
-                                </td>
+                                </thead>
+                                <tbody id="userPanelBody">
+                                </tbody>
                             </table>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
-<!--        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
-<!--        crossorigin="anonymous"></script>-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"-->
-<!--        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"-->
-<!--        crossorigin="anonymous"></script>-->
-<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"-->
-<!--        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"-->
-<!--        crossorigin="anonymous"></script>-->
+<!-- Отдельные JS для Popper и Bootstrap -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+        integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
+        crossorigin="anonymous"></script>
+
+<!-- JS -->
+
+<script type="text/javascript" src="UserPage.js"></script>
 </body>
 </html>

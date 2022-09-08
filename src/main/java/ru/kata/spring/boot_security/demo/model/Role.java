@@ -25,7 +25,7 @@ public class Role implements GrantedAuthority {
     @Column
     private String name;
 
-    @ManyToMany(mappedBy = "roleSet")
+    @ManyToMany(mappedBy = "roles")
     @ToString.Exclude
     private Set<User> users;
 

@@ -7,8 +7,12 @@ import java.util.Set;
 import javax.persistence.*;
 
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.*;
 
@@ -17,17 +21,12 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@NamedEntityGraphs(value = {@NamedEntityGraph(name = User.ROLE, attributeNodes = @NamedAttributeNode("roleSet"))})
-
 public class User implements UserDetails {
-    public static final String ROLE = "role[user]";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "username")
-    private String username;
 
     @Column(name = "firstname")
     private String firstName;
@@ -38,8 +37,8 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "email", unique = true, nullable = false)
+    private String username;
 
     @Column(name = "password")
     private String password;
@@ -47,16 +46,15 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
-
     )
+    @Fetch(FetchMode.JOIN)
     @ToString.Exclude
-    private Set<Role> roleSet = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
-
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -64,30 +62,37 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoleSet();
+        return roles;
     }
 
-
     @Override
+    public String getUsername() {
+        return username;
+    }
+    @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
-
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
-
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }
 
+    public void setRole(Role role) {
+        roles.add(role);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -100,5 +105,16 @@ public class User implements UserDetails {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + username + '\'' +
+                ", roleList=" + roles +
+                '}';
     }
 }
