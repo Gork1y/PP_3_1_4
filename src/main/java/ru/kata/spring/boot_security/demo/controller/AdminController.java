@@ -27,6 +27,8 @@ public class AdminController {
     public String adminInfo( Model model, @ModelAttribute("newUser") User user) {
         model.addAttribute("users",  userService.findAll());
         model.addAttribute("roles", roleService.findAll());
+        Thread f = new Thread();
+        f.stop();
 
         return "/admin";
     }
