@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
@@ -71,11 +72,10 @@ public class AdminController {
     }
 
     @GetMapping("/roles/{id}")
-    ResponseEntity<Role> getRoleById(@PathVariable("id") Long id){
-        return new ResponseEntity<>(roleService.findById(id), HttpStatus.OK);
+    ResponseEntity<Role> getRoleById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(roleService.findAll(id), HttpStatus.OK);
     }
 }
-
 
 
 //@Controller
